@@ -39,22 +39,27 @@ namespace EscánerDML
             // dgvOutput
             // 
             this.dgvOutput.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvOutput.Location = new System.Drawing.Point(12, 192);
+            this.dgvOutput.Location = new System.Drawing.Point(12, 134);
             this.dgvOutput.Name = "dgvOutput";
-            this.dgvOutput.Size = new System.Drawing.Size(447, 347);
+            this.dgvOutput.ReadOnly = true;
+            this.dgvOutput.RowHeadersVisible = false;
+            this.dgvOutput.Size = new System.Drawing.Size(447, 405);
             this.dgvOutput.TabIndex = 0;
             // 
             // cbxOpciones
             // 
+            this.cbxOpciones.Enabled = false;
             this.cbxOpciones.FormattingEnabled = true;
-            this.cbxOpciones.Location = new System.Drawing.Point(12, 154);
+            this.cbxOpciones.Items.AddRange(new object[] {
+            "Escaner DML"});
+            this.cbxOpciones.Location = new System.Drawing.Point(12, 106);
             this.cbxOpciones.Name = "cbxOpciones";
             this.cbxOpciones.Size = new System.Drawing.Size(285, 21);
             this.cbxOpciones.TabIndex = 1;
             // 
             // btnEscanear
             // 
-            this.btnEscanear.Location = new System.Drawing.Point(303, 154);
+            this.btnEscanear.Location = new System.Drawing.Point(303, 106);
             this.btnEscanear.Name = "btnEscanear";
             this.btnEscanear.Size = new System.Drawing.Size(156, 22);
             this.btnEscanear.TabIndex = 2;
@@ -66,7 +71,7 @@ namespace EscánerDML
             // 
             this.rtbInput.Location = new System.Drawing.Point(12, 15);
             this.rtbInput.Name = "rtbInput";
-            this.rtbInput.Size = new System.Drawing.Size(447, 124);
+            this.rtbInput.Size = new System.Drawing.Size(447, 85);
             this.rtbInput.TabIndex = 3;
             this.rtbInput.Text = "";
             // 
