@@ -23,13 +23,13 @@ namespace EscánerDML
         private Regex reg;
         private Tokens tokens;
         private MatchCollection mCol;
-        private string cadena, eReg = @"(\W|((?<=\A)|(?<=\b))(\S+)((?<=\b)|(?=\z)))";
+        private string cadena, expreg = @"(\W|((?<=\A)|(?<=\b))(\S+)((?<=\b)|(?=\z)))";
 
         private void Entrada()
         {
             tokens = new Tokens();
             cadena = tokens.formato(rtbInput.Text);
-            reg = new Regex(eReg, RegexOptions.IgnoreCase);
+            reg = new Regex(expreg, RegexOptions.IgnoreCase);
             mCol = reg.Matches(cadena.ToUpper());
         }
 
@@ -39,33 +39,71 @@ namespace EscánerDML
             int linea = 1;
             int numero = 1;
 
+            Queue<string> simbolos = new Queue<string>();
+            Queue<string> alfanumericos = new Queue<string>();
+
             foreach (Match c in mCol)
             {
                 if (reg.IsMatch(c.ToString()))
                 {
-                    if (c.ToString() != "\r" && c.ToString() != "\r\n" && c.ToString() != "\n" && c.ToString() != " ")
+                    if (c.ToString() == "‘" || c.ToString() == "’" || c.ToString() == "'" || alfanumericos.Count > 0) // Validar si es un alfa
                     {
-                        //MessageBox.Show(c.Value + " " + linea + " " + numero);
-                        if (tokens.esSimboloExistente(c.Value, numero, linea))
+                        alfanumericos.Enqueue(c.ToString());
+
+                        if ((c.ToString() == "‘" || c.ToString() == "’" || c.ToString() == "'") && alfanumericos.Count > 1)
                         {
-                            // Si son constantes
-                            if (tokens.esConstante(c.Value, numero, linea))
+                            string temp = "";
+                            foreach(string alfa in alfanumericos)
                             {
-                                // Si son identificadores
-                                if (tokens.esIdentificador(c.Value, numero, linea))
-                                {
-                                    if(tokens.esAlfanumerico(c.Value, numero, linea))
-                                    {
-                                        // Identifica errores
-                                    }
-                                }
+                                temp += alfa;
                             }
+                            tokens.LCadenas.Add(new Cadena(numero, linea, new Token(temp, "Alfanumerico")));
+                            //MessageBox.Show(temp);
+                            alfanumericos.Clear();
+                            numero++;
                         }
+                    }
+                    else if (tokens.esDelimitador(c.ToString())) // Validar si es un delimitador
+                    {
+                        tokens.LCadenas.Add(new Cadena(numero, linea, new Token(c.ToString(), "Delimitador")));
                         numero++;
                     }
-                    else if (c.ToString() == "\r" || c.ToString() == "\r\n" || c.ToString() == "\n")
+                    else if (tokens.esOperador(c.ToString()))
+                    {
+                        if(simbolos.Count > 0)
+                        {
+
+                        }
+                        tokens.LCadenas.Add(new Cadena(numero, linea, new Token(c.ToString(), "Operador")));
+                        numero++;
+                    }
+                    else if (tokens.esReservada(c.ToString()))
+                    {
+                        tokens.LCadenas.Add(new Cadena(numero, linea, new Token(c.ToString(), "Reservada")));
+                        numero++;
+                    }
+                    else if (tokens.esNumerico(c.ToString()))
+                    {
+                        tokens.LCadenas.Add(new Cadena(numero, linea, new Token(c.ToString(), "Numerico")));
+                        numero++;
+                    }
+                    else if (tokens.esIdentificador(c.ToString()))
+                    {
+                        tokens.LCadenas.Add(new Cadena(numero, linea, new Token(c.ToString(), "Identificador")));
+                        numero++;
+                    }
+                    else if(c.ToString() == "\r" || c.ToString() == "\r\n" || c.ToString() == "\n")
                     {
                         linea++;
+                    }
+                    else if (c.ToString() == " ")
+                    {
+                        //nada++;
+                    }
+                    else
+                    {
+                        tokens.LCadenas.Add(new Cadena(numero, linea, new Token(c.ToString(), "Invalida")));
+                        numero++;
                     }
                 }
             }
@@ -84,7 +122,15 @@ namespace EscánerDML
 
             foreach (Cadena cadena in tokens.LCadenas)
             {
-                this.dgvOutput.Rows.Add(cadena.Numero, cadena.Linea, cadena.Valor.Dato, cadena.Valor.Tipo);
+                if(cadena.Valor.Tipo == "Alfanumerico" || cadena.Valor.Tipo == "Numerico")
+                {
+                    this.dgvOutput.Rows.Add(cadena.Numero, cadena.Linea, "CONSTANTE", cadena.Valor.Tipo);
+                }
+                else
+                {
+                    this.dgvOutput.Rows.Add(cadena.Numero, cadena.Linea, cadena.Valor.Dato, cadena.Valor.Tipo);
+                }
+               
             }
 
             dgvOutput.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -99,10 +145,6 @@ namespace EscánerDML
             Entrada();
             Analisis();
             Resultados();
-        }
-        private void Form_Load(object sender, EventArgs e)
-        {
-            cbxOpciones.SelectedIndex = 0;
         }
     }
 }

@@ -38,6 +38,8 @@ namespace EscánerDML
             // 
             // dgvOutput
             // 
+            this.dgvOutput.AllowUserToAddRows = false;
+            this.dgvOutput.AllowUserToDeleteRows = false;
             this.dgvOutput.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvOutput.Location = new System.Drawing.Point(12, 134);
             this.dgvOutput.Name = "dgvOutput";
@@ -86,7 +88,6 @@ namespace EscánerDML
             this.Controls.Add(this.dgvOutput);
             this.Name = "Form";
             this.Text = "Escaner DML";
-            this.Load += new System.EventHandler(this.Form_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvOutput)).EndInit();
             this.ResumeLayout(false);
 
