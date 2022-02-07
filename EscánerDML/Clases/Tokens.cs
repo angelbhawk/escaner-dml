@@ -77,11 +77,20 @@ namespace EscánerDML.Clases
             return false;
         }
 
+        //public bool esReservada(string cadena)
+        //{
+        //    foreach (string simbolo in reservadas)
+        //    {
+        //        if (cadena == simbolo)
+        //            return true;
+        //    }
+        //    return false;
+        //}
         public bool esReservada(string cadena)
         {
             foreach (string simbolo in reservadas)
             {
-                if (cadena == simbolo)
+                if (Regex.IsMatch(cadena, simbolo))
                     return true;
             }
             return false;

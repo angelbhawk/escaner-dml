@@ -23,13 +23,20 @@ namespace EscánerDML
         private Regex reg;
         private Tokens tokens;
         private MatchCollection mCol;
-        //private string cadena, expreg = @"(\W|((?<=\A)|(?<=\b))(\S+)((?<=\b)|(?=\z)))";
-        private string cadena, expreg = @"((?<=\b)(\w+[^=+,-])(?<=\b)|(?<=\b)(\w+[#])(?<=\b))";
+        private string cadena, expreg = @"((?<=\b)(\w*[^=,+-])(?<=\b)|(\b)([=]?<=[']?<=\w*?>=\w*['])(?<=\b)|(['-'])|(\W?))";
+        //private string cadena, expreg = @"(['-'])";
 
         private void Entrada()
         {
+            //string er = "";
+            //er += @"(\W)"; // Toma todos los simbolos que no formen parte de una palabra (letras y números)
+            //er += @"|"; // Si no
+            //er += @"((?<=\A)|(?<=\b))"; // Mientras tenga un espacio o inicio de linea antes
+            //er += @"|"; // Si no
+            //er += @"()"; // Mientras tenga un espacio o inicio de linea antes
             tokens = new Tokens();
             cadena = rtbInput.Text;
+            //reg = new Regex(expreg, RegexOptions.IgnoreCase);
             reg = new Regex(expreg, RegexOptions.IgnoreCase);
             mCol = reg.Matches(cadena.ToUpper());
         }
