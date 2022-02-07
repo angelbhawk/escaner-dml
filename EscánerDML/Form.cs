@@ -23,12 +23,13 @@ namespace EscánerDML
         private Regex reg;
         private Tokens tokens;
         private MatchCollection mCol;
-        private string cadena, expreg = @"(\W|((?<=\A)|(?<=\b))(\S+)((?<=\b)|(?=\z)))";
+        //private string cadena, expreg = @"(\W|((?<=\A)|(?<=\b))(\S+)((?<=\b)|(?=\z)))";
+        private string cadena, expreg = @"((?<=\b)(\w+[^=+,-])(?<=\b)|(?<=\b)(\w+[#])(?<=\b))";
 
         private void Entrada()
         {
             tokens = new Tokens();
-            cadena = tokens.formato(rtbInput.Text);
+            cadena = rtbInput.Text;
             reg = new Regex(expreg, RegexOptions.IgnoreCase);
             mCol = reg.Matches(cadena.ToUpper());
         }
@@ -82,9 +83,14 @@ namespace EscánerDML
                         tokens.LCadenas.Add(new Cadena(numero, linea, new Token(c.ToString(), "Reservada")));
                         numero++;
                     }
-                    else if (tokens.esNumerico(c.ToString()))
+                    //else if (tokens.esNumerico(c.ToString()))
+                    //{
+                    //    tokens.LCadenas.Add(new Cadena(numero, linea, new Token(c.ToString(), "Numerico")));
+                    //    numero++;
+                    //}
+                    else if (tokens.esNumerico2(c.ToString()))
                     {
-                        tokens.LCadenas.Add(new Cadena(numero, linea, new Token(c.ToString(), "Numerico")));
+                        tokens.LCadenas.Add(new Cadena(numero, linea, new Token(c.ToString(), "Numerico (A)")));
                         numero++;
                     }
                     else if (tokens.esIdentificador(c.ToString()))
@@ -92,6 +98,7 @@ namespace EscánerDML
                         tokens.LCadenas.Add(new Cadena(numero, linea, new Token(c.ToString(), "Identificador")));
                         numero++;
                     }
+                    
                     else if(c.ToString() == "\r" || c.ToString() == "\r\n" || c.ToString() == "\n")
                     {
                         linea++;

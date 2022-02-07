@@ -102,12 +102,60 @@ namespace EscánerDML.Clases
 
         public bool esIdentificador(string cadena)
         {
+
             string erIde = @"^[A-Za-z0-9]*$";//@"\w+((?<!\W+)\W+)?";
             Regex Reg = new Regex(erIde, RegexOptions.IgnoreCase);
 
             if (Reg.IsMatch(cadena))
             {
                 erIde = @"^[A-Za-z]+";//@"\w+((?<!\W+)\W+)?";
+                Reg = new Regex(erIde, RegexOptions.IgnoreCase);
+                if (Reg.IsMatch(cadena))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //public bool esIdentificador(string cadena)
+        //{
+        //    int reglas = 0;
+        //    string erIde = @"^[A-Za-z]*$";//@"\w+((?<!\W+)\W+)?";
+        //    string R2 = @"^[0-9]*$";
+        //    Regex Reg = new Regex(erIde, RegexOptions.IgnoreCase);
+        //    if (Reg.IsMatch(cadena))
+        //    {
+        //        reglas++;
+        //    }
+        //    Reg = new Regex(R2, RegexOptions.IgnoreCase);
+        //    if (Reg.IsMatch(cadena))
+        //    {
+        //        reglas++;
+        //    }
+        //    if (reglas == 2)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+        public bool esNumerico2(string cadena)
+        {
+            string erIde = @"^[0-9]*$";//@"\w+((?<!\W+)\W+)?";
+            Regex Reg = new Regex(erIde, RegexOptions.IgnoreCase);
+
+            if (Reg.IsMatch(cadena))
+            {
+                erIde = @"^[0-9]+";//@"\w+((?<!\W+)\W+)?";
                 Reg = new Regex(erIde, RegexOptions.IgnoreCase);
                 if (Reg.IsMatch(cadena))
                 {
