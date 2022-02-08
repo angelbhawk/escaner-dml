@@ -97,7 +97,7 @@ namespace EscánerDML
                     //}
                     else if (tokens.esNumerico2(c.ToString()))
                     {
-                        tokens.LCadenas.Add(new Cadena(numero, linea, new Token(c.ToString(), "Numerico (A)")));
+                        tokens.LCadenas.Add(new Cadena(numero, linea, new Token(c.ToString(), "Numerico")));
                         numero++;
                     }
                     else if (tokens.esIdentificador(c.ToString()))

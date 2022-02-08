@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace EscánerDML.Clases
 {
@@ -88,10 +89,17 @@ namespace EscánerDML.Clases
         //}
         public bool esReservada(string cadena)
         {
+            Regex Reg;
             foreach (string simbolo in reservadas)
             {
-                if (Regex.IsMatch(cadena, simbolo))
+                //Reg = new Regex(cadena,RegexOptions.IgnorePatternWhitespace);
+                if (cadena.Replace(" ","")==simbolo)
+                {
+                    //MessageBox.Show(cadena + " " + simbolo);
                     return true;
+                }
+                    
+                
             }
             return false;
         }
