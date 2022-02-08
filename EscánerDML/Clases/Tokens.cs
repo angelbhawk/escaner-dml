@@ -121,13 +121,16 @@ namespace EscánerDML.Clases
         {
 
             string erIde = @"^[A-Za-z0-9]*$";//@"\w+((?<!\W+)\W+)?";
+            string erIde2 = @"(\b)(\w+[#]?)(\s)";
             Regex Reg = new Regex(erIde, RegexOptions.IgnoreCase);
-
-            if (Reg.IsMatch(cadena))
+            Regex Reg2 = new Regex(erIde2,RegexOptions.IgnoreCase);
+            if (Reg.IsMatch(cadena) || Reg2.IsMatch(cadena))
             {
                 erIde = @"^[A-Za-z]+";//@"\w+((?<!\W+)\W+)?";
+                
                 Reg = new Regex(erIde, RegexOptions.IgnoreCase);
-                if (Reg.IsMatch(cadena))
+                Reg2 = new Regex(erIde2, RegexOptions.IgnoreCase);
+                if (Reg.IsMatch(cadena) || Reg2.IsMatch(cadena))
                 {
                     return true;
                 }

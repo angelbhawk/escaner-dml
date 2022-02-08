@@ -23,8 +23,8 @@ namespace EscánerDML
         private Regex reg;
         private Tokens tokens;
         private MatchCollection mCol;
-        private string cadena, expreg = @"((?<=\b)(\w*[^=,+-])(?<=\b)|(\b)([=]?<=[']?<=\w*?>=\w*['])(?<=\b)|(['-'])|(\W?))";
-        //private string cadena, expreg = @"(['-'])";
+        private string cadena, expreg = @"((\b)(\w+[#]?)(\s)|(?<=\b)(\w*[^=,+-])(\b)|(['-'])|(\W?))";
+        //private string cadena, expreg = @"((\b)(\w*\W*[^,=])(?<=\B)(\b))";
 
         private void Entrada()
         {
